@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <title>Chat App</title>
+    <style>
+        #chatbox {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Chat App</h1>
+    <div id="chatbox"></div>
+    <input type="text" id="username" placeholder="Your Name">
+    <input type="text" id="message" placeholder="Type a message">
+    <button onclick="sendMessage(document.getElementById('message').value)">Send</button>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOFxBynXPoqK3gty8BdagT5n2EZhXSFQE",
+            authDomain: "serverlessio.firebaseapp.com",
+            databaseURL: "https://serverlessio-default-rtdb.firebaseio.com",
+            projectId: "serverlessio",
+            storageBucket: "serverlessio.appspot.com",
+            messagingSenderId: "429214448308",
+            appId: "1:429214448308:web:6b7d0828217be2d5d675e1",
+            measurementId: "G-0K7FHKMYLN"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const messagesRef = database.ref('messages');
+
+        // Function to post a message
+        function sendMessage(messageText) {
+            const username = document.getElementById('username').value || 'Anonymous';
+            const messageId = messagesRef.push().key;
+
+            const message = {
+                text: messageText,
+                username: username,
+                timestamp: Date.now()
+            };
+
+            messagesRef.child(messageId).set(message);
+            document.getElementById('message').value = ''; // Clear the input field
+        }
+
+        // Function to display messages in chatbox
+        messagesRef.on('child_added', (data) => {
+            const message = data.val();
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.innerHTML = `<strong>${message.username}:</strong>`;
+            messageElement.innerText += `${message.text}`;
+            document.getElementById('chatbox').appendChild(messageElement);
+            // Scroll to the bottom of the chatbox
+            const chatbox = document.getElementById('chatbox');
+            chatbox.scrollTop = chatbox.scrollHeight;
+        });
+    </script>
+</body>
+
+</html>
