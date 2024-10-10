@@ -2,8 +2,6 @@
 const { initializeApp } = require('firebase/app');
 const { getDatabase, ref, push, set, remove } = require('firebase/database');
 const http = require("http");
-const { Server } = require("socket.io");
-
 const app = express();
 const server = http.createServer(app);
 
