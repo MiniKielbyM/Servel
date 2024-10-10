@@ -30,8 +30,8 @@ function clearDatabase() {
     remove(messagesRef);
 }
 
-// Timer to clear the database every 10 seconds
-setInterval(clearDatabase, 10000);
+// Timer to clear the database every .1 seconds
+setInterval(clearDatabase, 100);
 
 server.listen(8080, function () {
   console.log("Listening to port 8080.");
