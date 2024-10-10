@@ -1,6 +1,11 @@
 // Import Firebase
 const { initializeApp } = require('firebase/app');
 const { getDatabase, ref, push, set, remove } = require('firebase/database');
+const http = require("http");
+const { Server } = require("socket.io");
+
+const app = express();
+const server = http.createServer(app);
 
 // Firebase configuration
 const firebaseConfig = {
@@ -28,4 +33,6 @@ function clearDatabase() {
 // Timer to clear the database every 10 seconds
 setInterval(clearDatabase, 10000);
 
-// You can add more functionality as needed
+server.listen(8080, function () {
+  console.log("Listening to port 6942.");
+});
