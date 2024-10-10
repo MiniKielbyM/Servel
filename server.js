@@ -1,9 +1,11 @@
 // Import Firebase
 const { initializeApp } = require('firebase/app');
 const { getDatabase, ref, push, set, remove } = require('firebase/database');
+const express = require("express");
 const http = require("http");
-const app = express();
-const server = http.createServer(app);
+const ExprApp = express();
+const server = http.createServer(ExprApp);
+ExprApp.use(express.static("public"));
 
 // Firebase configuration
 const firebaseConfig = {
@@ -32,5 +34,5 @@ function clearDatabase() {
 setInterval(clearDatabase, 10000);
 
 server.listen(8080, function () {
-  console.log("Listening to port 6942.");
+  console.log("Listening to port 8080.");
 });
